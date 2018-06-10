@@ -47,16 +47,16 @@ do
         fi
 
         egrep -v '^@' < bwa.sam |
-            awk '{if ($4 == 0) {print "NO MATCH"} else {print "POS:", $4, "CIGAR:", $6}}'
+            awk '{if ($4 == 0) {print "-"} else {print "POS:", $4, "CIGAR:", $6}}'
     elif [ $alg = blastn ]
     then
         makeblastdb -in subject.fasta -dbtype nucl -out subject-blastn >/dev/null
-        blastn -db subject-blastn -query query.fasta -outfmt '6 sstart btop' -task blastn > blast.out
-        test -s blast.out && (cat blast.out | tr '\t' ' ') || echo 'NO MATCH'
+        blastn -db subject-blastn -query query.fasta -outfmt '6 sstart btop' -task blastn -max_hsps 1 > blast.out
+        test -s blast.out && (awk '{print "POS:", $1, "BTOP:", $2}' blast.out) || echo '-'
     elif [ $alg = bowtie2 ]
     then
         bowtie2-build -f --quiet subject.fasta subject-bowtie2
         bowtie2 -f -U query.fasta --local -x subject-bowtie2 --no-hd --xeq --quiet -S bowtie.sam
-        awk '{if ($4 == 0) {print "NO MATCH"} else {print "POS:", $4, "CIGAR:", $6}}' < bowtie.sam
+        awk '{if ($4 == 0) {print "-"} else {print "POS:", $4, "CIGAR:", $6}}' < bowtie.sam
     fi
 done
