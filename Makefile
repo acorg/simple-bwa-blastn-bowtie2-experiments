@@ -1,2 +1,2 @@
 clean:
-	rm -f subject.fasta* query.fasta bwa.sa{i,m} *~
+	rm -f subject[.-]* query.fasta bwa.sa{i,m} *~ bowtie.sam blast.out

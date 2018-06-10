@@ -1,0 +1,6 @@
+subject-*
+subject.*
+query.fasta
+blast.out
+*.sam
+*~

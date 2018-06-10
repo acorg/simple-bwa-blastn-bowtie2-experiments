@@ -1,5 +1,4 @@
 [
     { "id": "subject", "length": 100 },
-    { "id": "query", "from id": "subject", "sections": [
-        { "from id": "subject", "start": 1, "length": 100 }, { "length": 10 } ] }
+    { "id": "query", "from id": "subject", "mutation rate": 0.2 }
 ]
